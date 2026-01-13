@@ -7,7 +7,7 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,7 +37,7 @@ jobs:
     - name: Check code style
       run: |
         python -m py_compile main.py
-        python -m py_compile analisis/ai_classifier.py
+        python -m py_compile analisis/ai_classfier.py
         python -m py_compile analisis/analisis_estatico.py
         python -m py_compile reports/report_generator.py
 
