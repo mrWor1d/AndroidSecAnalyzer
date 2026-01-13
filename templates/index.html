@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DroidSecAnalyzer - Analizador de Seguridad APK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #134e4a, #0d9488);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo-text {
+            font-size: 64px;
+            font-weight: bold;
+            color: #3DD9B3;
+            letter-spacing: 8px;
+        }
+
+        .logo-name {
+            font-size: 24px;
+            color: #3DD9B3;
+            margin-top: 5px;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: #134e4a;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .upload-area {
+            border: 2px dashed #3DD9B3;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            background: #f0fdf9;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            background: #d1fae5;
+            border-color: #0d9488;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #0d9488;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .upload-hint {
+            color: #999;
+            font-size: 12px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #666;
+            padding: 8px 12px;
+            background: #e6faf5;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .file-name.active {
+            display: block;
+            color: #0d9488;
+            font-weight: 500;
+        }
+
+        button {
+            background: linear-gradient(135deg, #3DD9B3, #0d9488);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(61, 217, 179, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(61, 217, 179, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">
+        <div class="logo-text">DSA</div>
+        <div class="logo-name">DroidSecAnalyzer</div>
+        <div class="tagline">El Droid con IA que caza vulnerabilidades Android</div>
+    </div>
+
+    <div class="card">
+        <h2>Analizar APK</h2>
+        <p>Sube una aplicacion Android para detectar vulnerabilidades de seguridad</p>
+
+        <form method="POST" enctype="multipart/form-data" id="upload-form">
+            <div class="upload-area" id="drop-area">
+                <div class="upload-icon">📱</div>
+                <div class="upload-text">Arrastra tu archivo APK aqui</div>
+                <div class="upload-hint">o haz clic para seleccionar</div>
+                <input type="file" name="apk" id="apk-input" accept=".apk" required>
+                <div class="file-name" id="file-name"></div>
+            </div>
+            <button type="submit">Analizar aplicacion</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('apk-input');
+    const fileName = document.getElementById('file-name');
+
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.add('dragover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.remove('dragover'), false);
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            updateFileName(files[0].name);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+            updateFileName(e.target.files[0].name);
+        }
+    });
+
+    function updateFileName(name) {
+        fileName.textContent = name;
+        fileName.classList.add('active');
+    }
+</script>
+
+</body>
+</html>

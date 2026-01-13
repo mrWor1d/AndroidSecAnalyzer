@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-01-12 22:34",
+    "filename": "MateApp-1.5.0.apk",
+    "app_name": "Mate",
+    "package": "com.byontriq.mateapp",
+    "version": "1.5.0",
+    "risk": "MEDIO",
+    "vulns_total": 4,
+    "vulns_high": 1,
+    "vulns_medium": 3,
+    "vulns_low": 0
+  },
+  {
+    "timestamp": "2026-01-12 22:32",
+    "filename": "app-debug.apk",
+    "app_name": "Glyph Museum",
+    "package": "com.pauwma.glyphmuseum",
+    "version": "1.2.4",
+    "risk": "ALTO",
+    "vulns_total": 4,
+    "vulns_high": 3,
+    "vulns_medium": 1,
+    "vulns_low": 0
+  }
+]

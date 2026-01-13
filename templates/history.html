@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial - DroidSecAnalyzer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #134e4a 0%, #0d9488 50%, #115e59 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3DD9B3, #0d9488);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(61, 217, 179, 0.3);
+        }
+
+        .logo-text h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text span {
+            color: #99f6e4;
+            font-size: 0.8rem;
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #134e4a;
+            background: linear-gradient(135deg, #3DD9B3, #2dd4bf);
+            box-shadow: 0 2px 8px rgba(61, 217, 179, 0.3);
+        }
+
+        .btn-nav svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(61, 217, 179, 0.4);
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            color: #134e4a;
+            font-size: 1.5rem;
+        }
+
+        .count-badge {
+            background: #0d9488;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 15px;
+            background: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        th:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        th:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        .app-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .app-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .app-package {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-family: monospace;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .risk-alto {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .risk-medio {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        .risk-bajo {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .vuln-stats {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .vuln-stat {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .vuln-high {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .vuln-medium {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .vuln-low {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .timestamp {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .version {
+            font-family: monospace;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .hide-mobile {
+                display: none;
+            }
+
+            td, th {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">DSA</div>
+                <div class="logo-text">
+                    <h1>DroidSecAnalyzer</h1>
+                    <span>Historial de Analisis</span>
+                </div>
+            </div>
+            <nav>
+                <a href="/" class="btn-nav">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Nuevo Analisis
+                </a>
+            </nav>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Analisis Recientes</h2>
+                <span class="count-badge">{{ history|length }} analisis</span>
+            </div>
+
+            {% if history %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Aplicacion</th>
+                        <th class="hide-mobile">Version</th>
+                        <th>Riesgo</th>
+                        <th>Vulnerabilidades</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in history %}
+                    <tr>
+                        <td>
+                            <span class="timestamp">{{ item.timestamp }}</span>
+                        </td>
+                        <td>
+                            <div class="app-info">
+                                <span class="app-name">{{ item.app_name }}</span>
+                                <span class="app-package">{{ item.package }}</span>
+                            </div>
+                        </td>
+                        <td class="hide-mobile">
+                            <span class="version">{{ item.version }}</span>
+                        </td>
+                        <td>
+                            <span class="risk-badge risk-{{ item.risk|lower }}">{{ item.risk }}</span>
+                        </td>
+                        <td>
+                            <div class="vuln-stats">
+                                {% if item.vulns_high > 0 %}
+                                <span class="vuln-stat vuln-high">{{ item.vulns_high }} Alta</span>
+                                {% endif %}
+                                {% if item.vulns_medium > 0 %}
+                                <span class="vuln-stat vuln-medium">{{ item.vulns_medium }} Media</span>
+                                {% endif %}
+                                {% if item.vulns_low > 0 %}
+                                <span class="vuln-stat vuln-low">{{ item.vulns_low }} Baja</span>
+                                {% endif %}
+                                {% if item.vulns_total == 0 %}
+                                <span class="vuln-stat" style="background: #f3f4f6; color: #6b7280;">Sin vulnerabilidades</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3>Sin analisis registrados</h3>
+                <p>Los analisis que realices apareceran aqui</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
