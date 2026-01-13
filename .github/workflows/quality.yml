@@ -35,7 +35,7 @@ jobs:
     - name: Syntax check all Python files
       run: |
         python -m py_compile main.py
-        python -m py_compile tests/run_tests.py
+        python -m py_compile scripts/run_tests.py
         python -m py_compile analisis/ai_classifier.py
         python -m py_compile analisis/analisis_estatico.py
         python -m py_compile reports/report_generator.py
