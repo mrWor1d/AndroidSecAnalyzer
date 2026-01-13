@@ -17,6 +17,7 @@ DroidSecAnalyzer realiza análisis estático de archivos APK detectando:
 ## Requisitos
 
 - Python 3.8+ (probado 3.8–3.11)
+- Docker
 - pip
 
 ## Instalación (local)
@@ -32,6 +33,7 @@ python main.py
 ```
 
 La aplicación estará disponible en `http://localhost:5000` (modo local).
+
 
 ## Ejecución con Docker
 
