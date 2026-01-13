@@ -53,7 +53,7 @@ Para persistir archivos subidos e historial fuera del contenedor:
 ```bash
 docker run --rm -p 8000:8000 \
 	-v ${PWD}/uploads:/app/uploads \
-	-v ${PWD}/history.json:/app/history.json \
+	-v ${PWD}/:/app/history.json \
 	androidsec-analyzer
 ```
 
